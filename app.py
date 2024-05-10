@@ -1,7 +1,6 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
-import plotly.graph_objects as go
 import requests
 
 # Função para obter dados meteorológicos
@@ -107,38 +106,6 @@ st.plotly_chart(fig_mapa, use_container_width=True)
 
 
 # ====================== graficos =======================
-
-# Layout do aplicativo
-if selected_bairro:
-    col1, col2 = st.columns([2, 1])
-    col3, col4 = st.columns([1, 2])
-
-    
-    with col1:
-        # Gráfico de linha com dados aleatórios
-        dados_aleatorios_linha = np.random.rand(len(df_bairros))
-        fig_linha = go.Figure(data=go.Scatter(x=df_bairros['Bairro'], y=dados_aleatorios_linha))
-        st.plotly_chart(fig_linha, use_container_width=True)
-
-    with col2:
-        # Gráfico de barras com dados aleatórios
-        dados_aleatorios_barra = np.random.rand(len(df_bairros))
-        fig_barra = go.Figure(data=[go.Bar(x=df_bairros['Bairro'], y=dados_aleatorios_barra, marker_color='#FF4B4B')])
-        st.plotly_chart(fig_barra, use_container_width=True)
-
-    with col3:
-        # Gráfico de dispersão em 3D com dados aleatórios
-        dados_aleatorios_dispersao_3d_x = np.random.rand(len(df_bairros))
-        dados_aleatorios_dispersao_3d_y = np.random.rand(len(df_bairros))
-        dados_aleatorios_dispersao_3d_z = np.random.rand(len(df_bairros))
-        fig_dispersao_3d = go.Figure(data=[go.Scatter3d(x=dados_aleatorios_dispersao_3d_x, y=dados_aleatorios_dispersao_3d_y, z=dados_aleatorios_dispersao_3d_z, mode='markers')])
-        st.plotly_chart(fig_dispersao_3d, use_container_width=True)
-
-    with col4:
-        # Gráfico de área com dados aleatórios
-        dados_aleatorios_area = np.random.rand(len(df_bairros))
-        fig_area = go.Figure(data=[go.Scatter(x=df_bairros['Bairro'], y=dados_aleatorios_area, fill='tozeroy', fillcolor='#fefefe')])
-        st.plotly_chart(fig_area, use_container_width=True)
 
 
 
