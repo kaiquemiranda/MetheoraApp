@@ -86,17 +86,20 @@ for bairro in df_bairros['Bairro']:
                 mode='markers',
                 marker=dict(
                     size=27,
-                    opacity=0.5,
-                    color='red' if risco == 'Alto' else ('yellow' if risco == 'Médio' else 'green'),
+                    opacity=0.6,
+                    color='red' if risco == 'Alto' else ('orange' if risco == 'Médio' else 'green'),
                 ),
                 name=bairro,
                 text=bairro + '<br>Chuva: ' + str(precip_mm) + ' mm' + '<br>Risco de incidente: ' + risco,
             )
         )
+st.markdown(" ")
+tema_mapa = st.sidebar.radio("Tema do mapa:", ('Dark', 'Light'))
+tema = 'open-street-map' if tema_mapa == 'Light' else 'carto-darkmatter'
 fig_mapa.update_layout(
     hovermode='closest',
     mapbox=dict(
-        style='open-street-map',
+        style=tema,
         center=dict(
             lat=-23.5505,
             lon=-46.6333,
