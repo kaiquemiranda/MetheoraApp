@@ -35,7 +35,7 @@ def calcular_risco(precip_mm):
 
 # Configuração da página
 st.set_page_config(page_title="METHEORA", page_icon=":zap:", layout="wide")
-st.sidebar.image('METHEORA.jpeg', width=200)
+st.sidebar.image('METHEORA.jpeg', width=240)
 st.sidebar.markdown("")
 st.sidebar.markdown("")
 
@@ -98,13 +98,11 @@ fig_mapa.update_layout(
             lon=-46.6333,
         ),
         zoom=10,
-    )
-    
+    ),
+    height=690  # Defina a altura desejada aqui
 )
 st.plotly_chart(fig_mapa, use_container_width=True)
 # ====================== Mapa de risco Incidente =======================
-
-
 
 
 # ====================== graficos =======================
@@ -138,7 +136,7 @@ if selected_bairro:
     with col4:
         # Gráfico de área com dados aleatórios
         dados_aleatorios_area = np.random.rand(len(df_bairros))
-        fig_area = go.Figure(data=[go.Scatter(x=df_bairros['Bairro'], y=dados_aleatorios_area, fill='tozeroy', fillcolor='#fefefe')])
+        fig_area = go.Figure(data=[go.Scatter(x=df_bairros['Bairro'], y=dados_aleatorios_area, fill='tozeroy', fillcolor='#643B90')])
         st.plotly_chart(fig_area, use_container_width=True)
 
 
