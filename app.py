@@ -82,11 +82,11 @@ for bairro in df_bairros['Bairro']:
                 mode='markers',
                 marker=dict(
                     size=27,
-                    opacity=0.7,
+                    opacity=0.5,
                     color='red' if risco == 'Alto' else ('yellow' if risco == 'Médio' else 'green'),
                 ),
-                name=bairro,
-                text=bairro + '<br>Chuva: ' + str(precip_mm) + ' mm' + '<br>Risco: ' + risco,
+                name='',
+                text=bairro + '<br>Chuva: ' + str(precip_mm) + ' mm' + '<br>Risco de incidente: ' + risco,
             )
         )
 fig_mapa.update_layout(
