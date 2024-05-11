@@ -92,7 +92,7 @@ for bairro in df_bairros['Bairro']:
 fig_mapa.update_layout(
     hovermode='closest',
     mapbox=dict(
-        style='carto-darkmatter',
+        style='open-street-map',
         center=dict(
             lat=-23.5505,
             lon=-46.6333,
@@ -136,7 +136,7 @@ if selected_bairro:
     with col4:
         # Gráfico de área com dados aleatórios
         dados_aleatorios_area = np.random.rand(len(df_bairros))
-        fig_area = go.Figure(data=[go.Scatter(x=df_bairros['Bairro'], y=dados_aleatorios_area, fill='tozeroy', fillcolor='#643B90')])
+        fig_area = go.Figure(data=[go.Scatter(x=df_bairros['Bairro'], y=dados_aleatorios_area, fill='tozeroy')])
         st.plotly_chart(fig_area, use_container_width=True)
 
 
