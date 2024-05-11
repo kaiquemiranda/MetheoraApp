@@ -34,7 +34,7 @@ def calcular_risco(precip_mm):
         return 'Alto'
 
 # Configuração da página
-st.set_page_config(page_title="METHEORA", page_icon=":zap:", layout="wide")
+st.set_page_config(page_title="METHEORA",page_icon=":lightning:", layout="wide")
 st.sidebar.image('METHEORA.jpeg', width=240)
 st.sidebar.markdown("")
 st.sidebar.markdown("")
@@ -54,18 +54,22 @@ if weather_data:
     st.sidebar.markdown(f"**Temperatura:** {weather_data['forecast']['forecastday'][0]['day']['avgtemp_c']} °C &#9925;")
     st.sidebar.markdown(f"**Chuva:** {weather_data['forecast']['forecastday'][0]['day']['totalprecip_mm']} mm")
     if weather_data['forecast']['forecastday'][0]['day']['totalprecip_mm'] < 1:
-        st.sidebar.markdown(f"Risco de incidente: Baixo")
+        st.sidebar.markdown(f"**Risco de incidente:** Baixo")
     elif weather_data['forecast']['forecastday'][0]['day']['totalprecip_mm'] < 2:
-        st.sidebar.markdown(f"Risco de incidente: Medio")
+        st.sidebar.markdown(f"**Risco de incidente:** Medio")
     else:
-        st.sidebar.markdown(f"Risco de incidente: Alto")
+        st.sidebar.markdown(f"**Risco de incidente:** Alto")
 else:
     st.error("Falha ao obter os dados meteorológicos. Por favor, tente novamente mais tarde.")
 
 # SIDEBAR ====================================================================
 
 
-st.title("DASHBOARD")
+st.markdown(
+    "<h1 style='text-align: center;'>DASHBOARD</h1>",
+    unsafe_allow_html=True
+)
+
 st.markdown("---")
 
 # ====================== Mapa de risco Incidente =======================
