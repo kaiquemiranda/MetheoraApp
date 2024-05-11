@@ -85,7 +85,7 @@ for bairro in df_bairros['Bairro']:
                     opacity=0.5,
                     color='red' if risco == 'Alto' else ('yellow' if risco == 'Médio' else 'green'),
                 ),
-                name='',
+                name=bairro,
                 text=bairro + '<br>Chuva: ' + str(precip_mm) + ' mm' + '<br>Risco de incidente: ' + risco,
             )
         )
