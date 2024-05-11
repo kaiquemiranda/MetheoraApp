@@ -52,7 +52,7 @@ if weather_data:
     st.sidebar.markdown("")
     #st.sidebar.markdown(f"### {selected_bairro}")
     st.sidebar.markdown(f"**Temperatura:** {weather_data['forecast']['forecastday'][0]['day']['avgtemp_c']} °C &#9925;")
-    st.sidebar.markdown(f"**Chuva:** {weather_data['forecast']['forecastday'][0]['day']['totalprecip_mm']} mm")
+    st.sidebar.markdown(f"**Chuva prevista:** {weather_data['forecast']['forecastday'][0]['day']['totalprecip_mm']} mm")
     if weather_data['forecast']['forecastday'][0]['day']['totalprecip_mm'] < 1:
         st.sidebar.markdown(f"**Risco de incidente:** Baixo")
     elif weather_data['forecast']['forecastday'][0]['day']['totalprecip_mm'] < 2:
@@ -90,7 +90,7 @@ for bairro in df_bairros['Bairro']:
                     color='red' if risco == 'Alto' else ('orange' if risco == 'Médio' else 'green'),
                 ),
                 name=bairro,
-                text=bairro + '<br>Chuva: ' + str(precip_mm) + ' mm' + '<br>Risco de incidente: ' + risco,
+                text=bairro + '<br>Chuva prevista: ' + str(precip_mm) + ' mm' + '<br>Risco de incidente: ' + risco,
             )
         )
 st.markdown(" ")
