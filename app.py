@@ -50,7 +50,7 @@ weather_data = get_weather_data(api_key, selected_bairro)
 if weather_data:
     
     st.sidebar.markdown("")
-    st.sidebar.markdown(f"### {selected_bairro}")
+    #st.sidebar.markdown(f"### {selected_bairro}")
     st.sidebar.markdown(f"**Temperatura:** {weather_data['forecast']['forecastday'][0]['day']['avgtemp_c']} °C &#9925;")
     st.sidebar.markdown(f"**Chuva:** {weather_data['forecast']['forecastday'][0]['day']['totalprecip_mm']} mm")
     if weather_data['forecast']['forecastday'][0]['day']['totalprecip_mm'] < 1:
