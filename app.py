@@ -35,8 +35,8 @@ def calcular_risco(precip_mm):
 
 # Configuração da página
 st.set_page_config(page_title="METHEORA",page_icon=":lightning:", layout="wide")
-st.sidebar.image('METHEORA.jpeg', width=240)
-st.sidebar.markdown("")
+st.sidebar.image('logo.png', width=240)
+st.sidebar.markdown("METHEORA")
 st.sidebar.markdown("")
 
 # Selecionar um bairro
