@@ -4,6 +4,7 @@ import numpy as np
 import plotly.graph_objects as go
 import requests
 
+
 # Função para obter dados meteorológicos
 def get_weather_data(api_key, city):
     endpoint = f"http://api.weatherapi.com/v1/forecast.json?key={api_key}&q={city}&days=3"
@@ -14,9 +15,8 @@ def get_weather_data(api_key, city):
     else:
         return None
 
-# Ler o arquivo CSV com os dados dos bairros
-#df_bairros = pd.read_csv('bairros.csv', encoding='utf-8')
-df_bairros = pd.read_csv('https://raw.githubusercontent.com/kaiquemiranda/MetheoraApp/main/Bairros.csv', encoding='utf-8')
+# Ler o arquivo CSV com os dados dos bairros no github
+df_bairros = pd.read_csv('https://raw.githubusercontent.com/kaiquemiranda/DataLakeMetheora/main/Bairros.csv', encoding='utf-8')
 
 # Coordenadas dos bairros selecionados de São Paulo
 coordenadas = dict(zip(df_bairros['Bairro'], zip(df_bairros['Latitude'], df_bairros['Longitude'])))
@@ -26,50 +26,51 @@ api_key = "94a63f8c79a64d5a822101559241005"
 
 # Função para calcular o risco com base na precipitação
 def calcular_risco(precip_mm):
-    if precip_mm < 2:
+    if precip_mm < 5:
         return 'Baixo'
-    elif precip_mm < 3:
+    elif precip_mm < 10:
         return 'Médio'
     else:
         return 'Alto'
 
 # Configuração da página
 st.set_page_config(page_title="METHEORA",page_icon=":lightning:", layout="wide")
-st.sidebar.image('logoMetheora.png', width=350)
-st.sidebar.markdown("")
+st.sidebar.image('logoMetheora.png', width=250)
+st.sidebar.markdown("<h1 style='text-align: center; margin-top: -60px; margin-bottom: 40px;'>METHEORA</h1>", unsafe_allow_html=True)
 
 # Selecionar um bairro
 selected_bairro = st.sidebar.selectbox('Selecione um bairro', df_bairros['Bairro'])
 # Obter dados meteorológicos
 weather_data = get_weather_data(api_key, selected_bairro)
 
-# SIDEBAR ===============================================================
 
+# ================== METRICS =============================================
+st.markdown(f"<h1 style='text-align: center; margin-top: -60px; margin-bottom: 40px;'>{selected_bairro}</h1>", unsafe_allow_html=True)
 # Apresentar informações meteorológicas
 if weather_data:
-    
+    forecast = weather_data['forecast']['forecastday'][0]['day']
+    total_precip_mm = forecast['totalprecip_mm']
+    daily_chance_of_rain = forecast['daily_chance_of_rain']
+    temperatura =  forecast['avgtemp_c']
     st.sidebar.markdown("")
-    #st.sidebar.markdown(f"### {selected_bairro}")
-    st.sidebar.markdown(f"**Temperatura:** {weather_data['forecast']['forecastday'][0]['day']['avgtemp_c']} °C &#9925;")
-    st.sidebar.markdown(f"**Chuva prevista:** {weather_data['forecast']['forecastday'][0]['day']['totalprecip_mm']} mm")
-    if weather_data['forecast']['forecastday'][0]['day']['totalprecip_mm'] < 1:
-        st.sidebar.markdown(f"**Risco de incidente:** Baixo")
-    elif weather_data['forecast']['forecastday'][0]['day']['totalprecip_mm'] < 2:
-        st.sidebar.markdown(f"**Risco de incidente:** Medio")
-    else:
-        st.sidebar.markdown(f"**Risco de incidente:** Alto")
+    coluna1, coluna2, coluna3, coluna4 = st.columns([1,1,1,1])
+    coluna1.metric(label='**TEMPERATURA** ', value=f'{temperatura}°', delta=f'{np.random.randint(-4,4)}°')
+    coluna2.metric(label="**CHUVA ESPERADA**", value=f'{total_precip_mm}mm')
+    coluna3.metric(label="**PROBABILIDADE DE CHUVA**", value=f'{daily_chance_of_rain}%')  
+    with coluna4:
+        if total_precip_mm < 1:
+            st.metric(label="**RISCO DE INCIDENTE**", value='Baixo')
+        elif total_precip_mm < 2:
+            st.metric(label="**RISCO DE INCIDENTE**", value='Médio')
+        else:
+            st.metric(label="**RISCO DE INCIDENTE**", value='Alto')
 else:
     st.error("Falha ao obter os dados meteorológicos. Por favor, tente novamente mais tarde.")
 
-# SIDEBAR ====================================================================
+# ================== METRICS =============================================
 
 
-st.markdown(
-    "<h1 style='text-align: center;'>DASHBOARD</h1>",
-    unsafe_allow_html=True
-)
 
-st.markdown("---")
 
 # ====================== Mapa de risco Incidente =======================
 fig_mapa = go.Figure()
@@ -89,7 +90,8 @@ for bairro in df_bairros['Bairro']:
                     color='red' if risco == 'Alto' else ('orange' if risco == 'Médio' else 'green'),
                 ),
                 name=bairro,
-                text=bairro + '<br>Chuva prevista: ' + str(precip_mm) + ' mm' + '<br>Risco de incidente: ' + risco,
+                text= '<br>Chuva prevista: ' + str(precip_mm) + ' mm' + '<br>Risco de incidente: ' + risco,
+                
             )
         )
 st.markdown(" ")
@@ -105,7 +107,7 @@ fig_mapa.update_layout(
         ),
         zoom=10,
     ),
-    height=690  # Defina a altura desejada aqui
+    height=590  # Defina a altura desejada aqui
 )
 st.plotly_chart(fig_mapa, use_container_width=True)
 # ====================== Mapa de risco Incidente =======================
@@ -115,8 +117,8 @@ st.plotly_chart(fig_mapa, use_container_width=True)
 
 # Layout do aplicativo
 if selected_bairro:
-    col1, col2 = st.columns([2, 1])
-    col3, col4 = st.columns([1, 2])
+    col1, col2 = st.columns([1, 1])
+    col3, col4 = st.columns([1, 1])
 
     
     with col1:
