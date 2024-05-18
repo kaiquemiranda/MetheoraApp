@@ -26,16 +26,16 @@ api_key = "94a63f8c79a64d5a822101559241005"
 
 # Função para calcular o risco com base na precipitação
 def calcular_risco(precip_mm):
-    if precip_mm < 5:
+    if precip_mm < 1:
         return 'Baixo'
-    elif precip_mm < 10:
+    elif precip_mm < 2:
         return 'Médio'
     else:
         return 'Alto'
 
 # Configuração da página
 st.set_page_config(page_title="METHEORA",page_icon=":lightning:", layout="wide")
-st.sidebar.image('logoMetheora.png', width=250)
+st.sidebar.image('logoMetheora.png', width=350)
 st.sidebar.markdown("<h1 style='text-align: center; margin-top: -60px; margin-bottom: 40px;'>METHEORA</h1>", unsafe_allow_html=True)
 
 # Selecionar um bairro
@@ -54,7 +54,7 @@ if weather_data:
     temperatura =  forecast['avgtemp_c']
     st.sidebar.markdown("")
     coluna1, coluna2, coluna3, coluna4 = st.columns([1,1,1,1])
-    coluna1.metric(label='**TEMPERATURA** ', value=f'{temperatura}°', delta=f'{np.random.randint(-4,4)}°')
+    coluna1.metric(label='**TEMPERATURA** ', value=f'{temperatura}°C', delta=f'{np.random.randint(-2,4)}°C')
     coluna2.metric(label="**CHUVA ESPERADA**", value=f'{total_precip_mm}mm')
     coluna3.metric(label="**PROBABILIDADE DE CHUVA**", value=f'{daily_chance_of_rain}%')  
     with coluna4:
@@ -90,7 +90,7 @@ for bairro in df_bairros['Bairro']:
                     color='red' if risco == 'Alto' else ('orange' if risco == 'Médio' else 'green'),
                 ),
                 name=bairro,
-                text= '<br>Chuva prevista: ' + str(precip_mm) + ' mm' + '<br>Risco de incidente: ' + risco,
+                text= bairro + '<br>Chuva prevista: ' + str(precip_mm) + ' mm' + '<br>Risco de incidente: ' + risco,
                 
             )
         )
