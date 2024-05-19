@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 import plotly.graph_objects as go
+import plotly.express as px
 import requests
 
 
@@ -24,6 +25,7 @@ coordenadas = dict(zip(df_bairros['Bairro'], zip(df_bairros['Latitude'], df_bair
 # Chave da API da WeatherAPI
 api_key = "94a63f8c79a64d5a822101559241005"
 
+
 # Função para calcular o risco com base na precipitação
 def calcular_risco(precip_mm):
     if precip_mm < 1:
@@ -36,7 +38,7 @@ def calcular_risco(precip_mm):
 # Configuração da página
 st.set_page_config(page_title="METHEORA",page_icon=":lightning:", layout="wide")
 st.sidebar.image('logoMetheora.png', width=350)
-st.sidebar.markdown("<h1 style='text-align: center; margin-top: -60px; margin-bottom: 40px;'>METHEORA</h1>", unsafe_allow_html=True)
+#st.sidebar.markdown("<h1 style='text-align: center; margin-top: -60px; margin-bottom: 40px;'>METHEORA</h1>", unsafe_allow_html=True)
 
 # Selecionar um bairro
 selected_bairro = st.sidebar.selectbox('Selecione um bairro', df_bairros['Bairro'])
@@ -112,44 +114,72 @@ fig_mapa.update_layout(
 st.plotly_chart(fig_mapa, use_container_width=True)
 # ====================== Mapa de risco Incidente =======================
 
+#  ========================================================================================
+# Carregar os dados
+bairros = pd.read_csv('https://raw.githubusercontent.com/kaiquemiranda/DataLakeMetheora/main/2024-04-PLUVIOMETRIA.csv', encoding='latin1', sep=';')
+# ==================== Limpeza ===========================================================
+colunas_para_excluir = ['Unnamed: 32', 'Unnamed: 33', 'Unnamed: 34', 'Unnamed: 35']
+bairros = bairros.drop(columns=colunas_para_excluir)
+bairros = bairros.dropna()
+# Transformar os dados para que os valores de precipitação sejam numéricos
+for col in bairros.columns[1:-1]:  # Ignorar a coluna 'Bairro' e a última coluna 'TOTAL'
+    bairros[col] = bairros[col].str.replace(',', '.').astype(float)
 
-# ====================== graficos =======================
+# ================= Limpeza ===============================================================
+
+
+
+# ====================== graficos ============================================================
 
 # Layout do aplicativo
-if selected_bairro:
-    col1, col2 = st.columns([1, 1])
-    col3, col4 = st.columns([1, 1])
+col1, col2 = st.columns([1, 1])
+col3, col4 = st.columns([1, 1])
+   
 
-    
-    with col1:
-        # Gráfico de linha com dados aleatórios
-        dados_aleatorios_linha = np.random.rand(len(df_bairros))
-        fig_linha = go.Figure(data=go.Scatter(x=df_bairros['Bairro'], y=dados_aleatorios_linha))
-        st.plotly_chart(fig_linha, use_container_width=True)
+with col1:
+    # Seleção de bairro no Streamlit
+    bairro_seleconado = st.selectbox('Selecione um bairro', bairros['Bairro'])
+    if bairro_seleconado:
+        # Filtrar os dados do bairro selecionado
+        dados_bairro = bairros[bairros['Bairro'] == bairro_seleconado].iloc[0, 1:-1]  # Ignorar a coluna 'Bairro' e a última coluna 'TOTAL'
 
-    with col2:
-        # Gráfico de barras com dados aleatórios
-        dados_aleatorios_barra = np.random.rand(len(df_bairros))
-        fig_barra = go.Figure(data=[go.Bar(x=df_bairros['Bairro'], y=dados_aleatorios_barra, marker_color='#FF4B4B')])
-        st.plotly_chart(fig_barra, use_container_width=True)
+        # Criar um DataFrame para Plotly Express
+        df_plot = pd.DataFrame({
+            'Dia': dados_bairro.index,
+            'Precipitação (mm)': dados_bairro.values
+        })
+        # Criar o gráfico de barras
+        fig_Precip = px.bar(df_plot, x='Dia', y='Precipitação (mm)', title=f'Precipitação por dia no bairro {selected_bairro}')
+        # Exibir o gráfico no Streamlit
+        st.plotly_chart(fig_Precip, use_container_width=True)
 
-    with col3:
-        # Gráfico de dispersão em 3D com dados aleatórios
-        dados_aleatorios_dispersao_3d_x = np.random.rand(len(df_bairros))
-        dados_aleatorios_dispersao_3d_y = np.random.rand(len(df_bairros))
-        dados_aleatorios_dispersao_3d_z = np.random.rand(len(df_bairros))
-        fig_dispersao_3d = go.Figure(data=[go.Scatter3d(x=dados_aleatorios_dispersao_3d_x, y=dados_aleatorios_dispersao_3d_y, z=dados_aleatorios_dispersao_3d_z, mode='markers')])
-        st.plotly_chart(fig_dispersao_3d, use_container_width=True)
+with col2:
+    # Calcular a precipitação total por bairro
+    bairros['Precipitação Total'] = bairros.iloc[:, 1:-1].sum(axis=1)
+    # Selecionar os 10 bairros com maior precipitação total
+    top_5_bairros = bairros.nlargest(5, 'Precipitação Total')
+    # Criar o gráfico de pizza com Plotly Express
+    fig_pizza = px.pie(top_5_bairros, names='Bairro', values='Precipitação Total', title='Bairros com Maior Precipitação Total no Mês')
+    # Exibir o gráfico no Streamlit
+    st.plotly_chart(fig_pizza, use_container_width=True)
 
-    with col4:
-        # Gráfico de área com dados aleatórios
-        dados_aleatorios_area = np.random.rand(len(df_bairros))
-        fig_area = go.Figure(data=[go.Scatter(x=df_bairros['Bairro'], y=dados_aleatorios_area, fill='tozeroy')])
-        st.plotly_chart(fig_area, use_container_width=True)
+with col3:
+    # Gráfico de linha com dados aleatórios
+    dados_aleatorios_linha = np.random.rand(len(df_bairros))
+    fig_linha = go.Figure(data=go.Scatter(x=df_bairros['Bairro'], y=dados_aleatorios_linha))
+    st.plotly_chart(fig_linha, use_container_width=True)
+
+with col4:
+    # Gráfico de barras com dados aleatórios
+    dados_aleatorios_barra = np.random.rand(len(df_bairros))
+    fig_barra = go.Figure(data=[go.Bar(x=df_bairros['Bairro'], y=dados_aleatorios_barra, marker_color='#FF4B4B')])
+    st.plotly_chart(fig_barra, use_container_width=True)
 
 
 
-# ====================== graficos =======================
+
+
+# ====================== graficos ============================================================================
 
 
 
