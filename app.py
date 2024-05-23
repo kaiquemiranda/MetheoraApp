@@ -149,7 +149,7 @@ with col1:
             'Precipitação (mm)': dados_bairro.values
         })
         # Criar o gráfico de barras
-        fig_Precip = px.bar(df_plot, x='Dia', y='Precipitação (mm)', title=f'Precipitação por dia no bairro {selected_bairro}')
+        fig_Precip = px.bar(df_plot, x='Dia', y='Precipitação (mm)', title=f'Precipitação por dia no bairro {bairro_seleconado}')
         # Exibir o gráfico no Streamlit
         st.plotly_chart(fig_Precip, use_container_width=True)
 
