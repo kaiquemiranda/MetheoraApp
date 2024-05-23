@@ -17,7 +17,7 @@ def get_weather_data(api_key, city):
         return None
 
 # Ler o arquivo CSV com os dados dos bairros no github
-df_bairros = pd.read_csv('https://raw.githubusercontent.com/kaiquemiranda/DataLakeMetheora/main/2024-04-PLUVIOMETRIA.csv', encoding='utf-8')
+df_bairros = pd.read_csv('https://raw.githubusercontent.com/kaiquemiranda/DataLakeMetheora/main/Bairros.csv', encoding='utf-8')
 
 # Coordenadas dos bairros selecionados de São Paulo
 coordenadas = dict(zip(df_bairros['Bairro'], zip(df_bairros['Latitude'], df_bairros['Longitude'])))
