@@ -51,16 +51,16 @@ selecionado = option_menu(
     default_index=1,
     orientation="horizontal",
     styles={
-        "container": {"padding": "10!important", "background-color": "#6A047B"},
+        "container": {"padding": "10!important", "background-color": "black"},
                 "icon": {"color": "white", "font-size": "20px"},
                 "nav-link": {
                     "font-size": "20px",
                     "color": "white",
-                    "text-align": "left",
-                    "margin": "0px",
-                    "--hover-color": "#530361",
+                    "text-align": "center",
+                    "margin": "10px",
+                    "--hover-color": "#080808",
                 },
-        "nav-link-selected": {"background-color": "#530361"},
+        "nav-link-selected": {"background-color": "#000000", "border-bottom": "2px solid #ffffff"},
 
     },
 )
