@@ -52,9 +52,9 @@ selecionado = option_menu(
     orientation="horizontal",
     styles={
         "container": {"padding": "10!important", "background-color": "black"},
-                "icon": {"color": "white", "font-size": "20px"},
+                "icon": {"color": "white", "font-size": "25px"},
                 "nav-link": {
-                    "font-size": "20px",
+                    "font-size": "25px",
                     "color": "white",
                     "text-align": "center",
                     "margin": "10px",
