@@ -45,10 +45,10 @@ def calcular_risco(precip_mm):
 
 selecionado = option_menu(
     menu_title=None, 
-    options=["Dashboard", "Mapa", "Contato"],
-    icons=["bar-chart", "globe-americas", "envelope"],
+    options=["Home", "Dashboard", "Mapa", "Contato"],
+    icons=["house","bar-chart", "globe-americas", "envelope"],
     menu_icon="cast",
-    default_index=1,
+    default_index=2,
     orientation="horizontal",
     styles={
         "container": {"padding": "10!important", "background-color": "black"},
@@ -60,7 +60,7 @@ selecionado = option_menu(
                     "margin": "10px",
                     "--hover-color": "#080808",
                 },
-        "nav-link-selected": {"background-color": "#000000", "border-bottom": "2px solid #ffffff"},
+        "nav-link-selected": {"background-color": "#000000", "border-bottom": "4px solid #ffffff", "border-radius": "0px"},
 
     },
 )
@@ -217,7 +217,7 @@ if selecionado == "Contato":
     st.header("Entre em contato conosco")
 
     contact_form = """
-    <form action="https://formsubmit.co/01d559c427f2b4a8a3e19ade6b0f20f4" method="POST">
+    <form action="https://formsubmit.co/kaique.miranda1910@gmail.com" method="POST">
         <input type="hidden" name="_captcha" value="false">
         <input type="text" name="name" placeholder="Seu nome" required>
         <input type="email" name="email" placeholder="Seu email" required>
