@@ -217,7 +217,7 @@ if selecionado == "Contato":
     st.header("Entre em contato conosco")
 
     contact_form = """
-    <form action="https://formsubmit.co/kaique.miranda1910@gmail.com" method="POST">
+    <form action="01d559c427f2b4a8a3e19ade6b0f20f4" method="POST">
         <input type="hidden" name="_captcha" value="false">
         <input type="text" name="name" placeholder="Seu nome" required>
         <input type="email" name="email" placeholder="Seu email" required>
