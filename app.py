@@ -10,8 +10,8 @@ from streamlit_option_menu import option_menu
 
 # Configuração da página
 st.set_page_config(page_title="METHEORA", page_icon=":lightning:", layout="wide")
-#st.sidebar.image('C:\METHEORA\Streamlit\logoMetheora.png', width=350)
-#st.sidebar.markdown("<h1 style='text-align: center; margin-top: -80px; margin-bottom: 40px;'>METHEORA</h1>", unsafe_allow_html=True)
+st.sidebar.image('Metheora.png', width=350)
+st.sidebar.markdown("<h1 style='color: 6B04A2; text-align: center; font-size: 35px; margin-top: -20px; margin-bottom: 40px;'>METHEORA</h1>", unsafe_allow_html=True)
 
 # Função para obter dados meteorológicos
 def get_weather_data(api_key, city):
@@ -42,28 +42,28 @@ def calcular_risco(precip_mm):
         return 'Alto'
 
 
+with st.sidebar:
+    selecionado = option_menu(
+        menu_title=None,
+        options=["Home", "Dashboard", "Mapa", "Contato"],
+        icons=["house","bar-chart", "globe-americas", "envelope"],
+        menu_icon="cast",
+        default_index=2,
+        #orientation="horizontal",
+        styles={
+            "container": {"padding": "10!important", "background-color": "rgb(0, 0, 0, 0.6)"},
+                    "icon": {"color": "#fff", "font-size": "25px"},
+                    "nav-link": {
+                        "font-size": "25px",
+                        "color": "#fff",
+                        "text-align": "left",
+                        "margin": "10px",
+                        "--hover-color": "#rgb(0, 0, 0, 0.9)",
+                    },
+            "nav-link-selected": {"background-color": "rgb(0, 0, 0, 0.6)"},
 
-selecionado = option_menu(
-    menu_title=None, 
-    options=["Home", "Dashboard", "Mapa", "Contato"],
-    icons=["house","bar-chart", "globe-americas", "envelope"],
-    menu_icon="cast",
-    default_index=2,
-    orientation="horizontal",
-    styles={
-        "container": {"padding": "10!important", "background-color": "black"},
-                "icon": {"color": "white", "font-size": "25px"},
-                "nav-link": {
-                    "font-size": "25px",
-                    "color": "white",
-                    "text-align": "center",
-                    "margin": "10px",
-                    "--hover-color": "#080808",
-                },
-        "nav-link-selected": {"background-color": "#000000", "border-bottom": "4px solid #ffffff", "border-radius": "0px"},
-
-    },
-)
+        },
+    )
 
 
 if selecionado == "Home":  # Pagina inicial
