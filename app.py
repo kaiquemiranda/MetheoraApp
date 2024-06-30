@@ -102,8 +102,8 @@ def metricas():
     # ================== METRICS =============================================
 
 if selecionado == "Home":  # Pagina inicial
-    st.markdown("<h1 style='text-align: center; margin-bottom: 40px;'>METHEORA</h1>", unsafe_allow_html=True)
-    st.markdown("<h1 style='text-align: center; margin-top: 80px; margin-bottom: 40px;'>Bem vindos</h1>", unsafe_allow_html=True)
+    #st.markdown("<h1 style='text-align: center; margin-bottom: 40px;'>METHEORA</h1>", unsafe_allow_html=True)
+    st.image("construcao.png", width=780)
  
  #==================================================================================================================================   
 
@@ -167,8 +167,7 @@ if selecionado == "Dashboard": # Pagina dos graficos
  #==================================================================================================================================
 
 if selecionado == "Datasets":
-    metricas()
-    st.markdown("Em desenvolvimento")
+    st.image("construcao.png", width=780)
 
 #==================================================================================================================================
 
