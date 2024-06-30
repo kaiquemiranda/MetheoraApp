@@ -10,8 +10,11 @@ from streamlit_option_menu import option_menu
 
 # Configuração da página
 st.set_page_config(page_title="METHEORA", page_icon=":lightning:", layout="wide")
-st.sidebar.image('Metheora.png', width=350)
-st.sidebar.markdown("<h1 style='color: 6B04A2; text-align: center; font-size: 35px; margin-top: -20px; margin-bottom: 40px;'>METHEORA</h1>", unsafe_allow_html=True)
+st.sidebar.image('Metheora.png', width=280)
+st.sidebar.markdown("<h1 style='color: white; text-align: center; font-size: 30px; margin-top: -20px; margin-bottom: 40px;'>METHEORA</h1>", unsafe_allow_html=True)
+with open("style/style.css") as f:
+    st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
+
 
 # Função para obter dados meteorológicos
 def get_weather_data(api_key, city):
@@ -45,22 +48,22 @@ def calcular_risco(precip_mm):
 with st.sidebar:
     selecionado = option_menu(
         menu_title=None,
-        options=["Home", "Dashboard", "Mapa", "Contato"],
-        icons=["house","bar-chart", "globe-americas", "envelope"],
+        options=["Home", "Dashboard", "Mapa", "Contato", "Datasets"],
+        icons=["house","bar-chart", "globe-americas", "envelope", "database"],
         menu_icon="cast",
         default_index=2,
         #orientation="horizontal",
         styles={
-            "container": {"padding": "10!important", "background-color": "rgb(0, 0, 0, 0.6)"},
-                    "icon": {"color": "#fff", "font-size": "25px"},
+            "container": {"padding": "0!important", "background-color": "#582c8d", "border-radius": "0px", "border-top": "2px white solid"},
+                    "icon": {"color": "white", "font-size": "25px"},
                     "nav-link": {
                         "font-size": "25px",
-                        "color": "#fff",
+                        "color": "white",
                         "text-align": "left",
-                        "margin": "10px",
-                        "--hover-color": "#rgb(0, 0, 0, 0.9)",
+                        "margin": "0px",
+                        "--hover-color": "#rgb(0, 0, 0, 0.1)",
                     },
-            "nav-link-selected": {"background-color": "rgb(0, 0, 0, 0.6)"},
+            "nav-link-selected": {"background-color": "rgb(0, 0, 0, 0.1)"},
 
         },
     )
@@ -235,6 +238,8 @@ if selecionado == "Contato":
 
     local_css("style/style.css")
 
+if selecionado == "Datasets":
+    st.markdown("Em desenvolvimento")
 
 # Rodapé
 st.markdown("<p style='text-align: center; margin-top: 200px; '> </p>", unsafe_allow_html=True)
