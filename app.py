@@ -6,14 +6,17 @@ import plotly.express as px
 import requests
 import streamlit_shadcn_ui as ui
 from streamlit_option_menu import option_menu
+from PIL import Image
 
-
+img = Image.open('Metheora.png')
 # Configuração da página
-st.set_page_config(page_title="METHEORA", page_icon=":lightning:", layout="wide")
+st.set_page_config(page_title="Metheora", page_icon=img, layout="wide")
 st.sidebar.image('Metheora.png', width=280)
-st.sidebar.markdown("<h1 style='color: white; text-align: left; font-size: 30px; margin-top: -30px; margin-bottom: 40px; margin-left: 60px;'>METHEORA</h1>", unsafe_allow_html=True)
+st.sidebar.markdown("<h1 style='color: white; text-align: left; font-size: 40px; margin-top: -30px; margin-bottom: 40px; margin-left: 40px;'>METHEORA</h1>", unsafe_allow_html=True)
 with open("style/style.css") as f:
     st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
+
+
 
 
 # Função para obter dados meteorológicos
