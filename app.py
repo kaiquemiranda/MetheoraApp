@@ -63,7 +63,7 @@ with st.sidebar:
                         "margin": "0px",
                         "--hover-color": "#rgb(0, 0, 0, 0.1)",
                     },
-            "nav-link-selected": {"background-color": "rgb(0, 0, 0, 0.1)"},
+                "nav-link-selected": {"background-color": "rgb(0, 0, 0, 0.1)"},
 
         },
     )
@@ -83,18 +83,19 @@ def metricas():
         temperatura = current_weather['temp_c']
         coluna1, coluna2, coluna3, coluna4 = st.columns([1, 1, 1, 1])
         with coluna1:
-            ui.metric_card(title='TEMPERATURA', content=f'{temperatura}°C')
+            num = np.random.randint(-2, 3)
+            st.metric('TEMPERATURA', f'{temperatura}°C', num)
         with coluna2:
-            ui.metric_card(title="CHUVA PREVISTA", content=f'{total_precip_mm}mm')
+            st.metric("CHUVA PREVISTA", f'{total_precip_mm}mm')
         with coluna3:
-            ui.metric_card(title="CHANCE DE CHUVA", content=f'{daily_chance_of_rain}%')
+            st.metric("CHANCE DE CHUVA", f'{daily_chance_of_rain}%')
         with coluna4:
             if total_precip_mm < 8:
-                ui.metric_card(title="RISCO DE INCIDENTE", content='Baixo')
+                st.metric("RISCO DE INCIDENTE", 'Baixo')
             elif total_precip_mm < 20:
-                ui.metric_card(title="RISCO DE INCIDENTE", content='Médio')
+                st.metric("RISCO DE INCIDENTE", 'Médio')
             else:
-                ui.metric_card(title="RISCO DE INCIDENTE", content='Alto')
+                st.metric("RISCO DE INCIDENTE", 'Alto')
     else:
         st.error("Falha ao obter os dados meteorológicos. Por favor, tente novamente mais tarde.")
 
@@ -123,24 +124,6 @@ if selecionado == "Dashboard": # Pagina dos graficos
 
     # ====================== graficos ============================================================
 
-    # Seleção de bairro no Streamlit
-    bairro_seleconado = st.selectbox('', bairros['Bairro'])
-    if bairro_seleconado:
-        # Filtrar os dados do bairro selecionado
-        dados_bairro = bairros[bairros['Bairro'] == bairro_seleconado].iloc[0, 1:-1]  # Ignorar a coluna 'Bairro' e a última coluna 'TOTAL'
-
-        # Criar um DataFrame para Plotly Express
-        df_plot = pd.DataFrame({
-            'Dia': dados_bairro.index,
-            'Precipitação (mm)': dados_bairro.values
-        })
-        # Criar o gráfico de barras
-        fig_Precip = px.bar(df_plot, x='Dia', y='Precipitação (mm)', title=f'Precipitação por dia no bairro {bairro_seleconado}')
-        # Exibir o gráfico no Streamlit
-        st.plotly_chart(fig_Precip, use_container_width=True)
-
-    st.markdown("---")
-
     # Layout do aplicativo
     col1, col2 = st.columns([1, 1])
 
@@ -159,6 +142,27 @@ if selecionado == "Dashboard": # Pagina dos graficos
         fig_pizza = px.pie(top_5_bairros, names='Bairro', values='Precipitação Total', title='Bairros com Maior Precipitação (mm)')
         # Exibir o gráfico no Streamlit
         st.plotly_chart(fig_pizza, use_container_width=True)
+
+    st.markdown("---")
+    # Seleção de bairro no Streamlit
+    bairro_seleconado = st.selectbox('', bairros['Bairro'])
+    if bairro_seleconado:
+        # Filtrar os dados do bairro selecionado
+        dados_bairro = bairros[bairros['Bairro'] == bairro_seleconado].iloc[0,
+                       1:-1]  # Ignorar a coluna 'Bairro' e a última coluna 'TOTAL'
+
+        # Criar um DataFrame para Plotly Express
+        df_plot = pd.DataFrame({
+            'Dia': dados_bairro.index,
+            'Precipitação (mm)': dados_bairro.values
+        })
+        # Criar o gráfico de barras
+        fig_Precip = px.bar(df_plot, x='Dia', y='Precipitação (mm)',
+                            title=f'Precipitação por dia no bairro {bairro_seleconado}')
+        # Exibir o gráfico no Streamlit
+        st.plotly_chart(fig_Precip, use_container_width=True)
+
+
 
  #==================================================================================================================================
 
