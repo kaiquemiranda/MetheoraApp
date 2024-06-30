@@ -11,7 +11,7 @@ from streamlit_option_menu import option_menu
 # Configuração da página
 st.set_page_config(page_title="METHEORA", page_icon=":lightning:", layout="wide")
 st.sidebar.image('Metheora.png', width=280)
-st.sidebar.markdown("<h1 style='color: white; text-align: center; font-size: 30px; margin-top: -20px; margin-bottom: 40px;'>METHEORA</h1>", unsafe_allow_html=True)
+st.sidebar.markdown("<h1 style='color: white; text-align: left; font-size: 30px; margin-top: -30px; margin-bottom: 40px; margin-left: 60px;'>METHEORA</h1>", unsafe_allow_html=True)
 with open("style/style.css") as f:
     st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
 
@@ -48,8 +48,8 @@ def calcular_risco(precip_mm):
 with st.sidebar:
     selecionado = option_menu(
         menu_title=None,
-        options=["Home", "Dashboard", "Mapa", "Contato", "Datasets"],
-        icons=["house","bar-chart", "globe-americas", "envelope", "database"],
+        options=["Home", "Dashboard", "Mapa", "Datasets", "Contato"],
+        icons=["house","bar-chart", "globe-americas","database", "envelope"],
         menu_icon="cast",
         default_index=2,
         #orientation="horizontal",
@@ -67,69 +67,7 @@ with st.sidebar:
 
         },
     )
-
-
-if selecionado == "Home":  # Pagina inicial
-    st.markdown("<h1 style='text-align: center; margin-bottom: 40px;'>METHEORA</h1>", unsafe_allow_html=True)
-    st.markdown("<h1 style='text-align: center; margin-top: 80px; margin-bottom: 40px;'>Bem vindos</h1>", unsafe_allow_html=True)
- 
- #==================================================================================================================================   
-
-if selecionado == "Dashboard": # Pagina dos graficos
-    # ====================== graficos ============================================================================
-    # Carregar os dados
-    bairros = pd.read_csv('https://raw.githubusercontent.com/kaiquemiranda/DataLakeMetheora/main/2024-04-PLUVIOMETRIA.csv', encoding='latin1', sep=';')
-    # ==================== Limpeza ===========================================================
-    colunas_para_excluir = ['Unnamed: 32', 'Unnamed: 33', 'Unnamed: 34', 'Unnamed: 35']
-    bairros = bairros.drop(columns=colunas_para_excluir)
-    bairros = bairros.dropna()
-    # Transformar os dados para que os valores de precipitação sejam numéricos
-    for col in bairros.columns[1:-1]:  # Ignorar a coluna 'Bairro' e a última coluna 'TOTAL'
-        bairros[col] = bairros[col].str.replace(',', '.').astype(float)
-
-    # ================= Limpeza ===============================================================
-
-    # ====================== graficos ============================================================
-
-    # Seleção de bairro no Streamlit
-    bairro_seleconado = ui.select('Selecione um bairro', bairros['Bairro']) 
-    if bairro_seleconado:
-        # Filtrar os dados do bairro selecionado
-        dados_bairro = bairros[bairros['Bairro'] == bairro_seleconado].iloc[0, 1:-1]  # Ignorar a coluna 'Bairro' e a última coluna 'TOTAL'
-
-        # Criar um DataFrame para Plotly Express
-        df_plot = pd.DataFrame({
-            'Dia': dados_bairro.index,
-            'Precipitação (mm)': dados_bairro.values
-        })
-        # Criar o gráfico de barras
-        fig_Precip = px.bar(df_plot, x='Dia', y='Precipitação (mm)', title=f'Precipitação por dia no bairro {bairro_seleconado}')
-        # Exibir o gráfico no Streamlit
-        st.plotly_chart(fig_Precip, use_container_width=True)
-
-    st.markdown("---")
-
-    # Layout do aplicativo
-    col1, col2 = st.columns([2, 1])
-    with col1:
-        # Gráfico de barras com dados aleatórios
-        dados_aleatorios_barra = np.random.rand(len(bairros_coordenas))
-        fig_barra = go.Figure(data=[go.Line(x=bairros_coordenas['Bairro'], y=dados_aleatorios_barra, marker_color='#FF4B4B')])
-        st.plotly_chart(fig_barra, use_container_width=True)
-        
-    with col2:
-        # Calcular a precipitação total por bairro
-        bairros['Precipitação Total'] = bairros.iloc[:, 1:-1].sum(axis=1)
-        # Selecionar os 10 bairros com maior precipitação total
-        top_5_bairros = bairros.nlargest(5, 'Precipitação Total')
-        # Criar o gráfico de pizza com Plotly Express
-        fig_pizza = px.pie(top_5_bairros, names='Bairro', values='Precipitação Total', title='Bairros com Maior Precipitação (mm)')
-        # Exibir o gráfico no Streamlit
-        st.plotly_chart(fig_pizza, use_container_width=True)
-
- #==================================================================================================================================   
-
-if selecionado == "Mapa": # Pagina de contato
+def metricas():
     # Selecionar um bairro
     selected_bairro = ui.select('Selecione um bairro', bairros_coordenas['Bairro'])
     # Obter dados meteorológicos
@@ -162,6 +100,76 @@ if selecionado == "Mapa": # Pagina de contato
 
     # ================== METRICS =============================================
 
+if selecionado == "Home":  # Pagina inicial
+    st.markdown("<h1 style='text-align: center; margin-bottom: 40px;'>METHEORA</h1>", unsafe_allow_html=True)
+    st.markdown("<h1 style='text-align: center; margin-top: 80px; margin-bottom: 40px;'>Bem vindos</h1>", unsafe_allow_html=True)
+ 
+ #==================================================================================================================================   
+
+if selecionado == "Dashboard": # Pagina dos graficos
+    metricas()
+    # ====================== graficos ============================================================================
+    # Carregar os dados
+    bairros = pd.read_csv('https://raw.githubusercontent.com/kaiquemiranda/DataLakeMetheora/main/2024-04-PLUVIOMETRIA.csv', encoding='latin1', sep=';')
+    # ==================== Limpeza ===========================================================
+    colunas_para_excluir = ['Unnamed: 32', 'Unnamed: 33', 'Unnamed: 34', 'Unnamed: 35']
+    bairros = bairros.drop(columns=colunas_para_excluir)
+    bairros = bairros.dropna()
+    # Transformar os dados para que os valores de precipitação sejam numéricos
+    for col in bairros.columns[1:-1]:  # Ignorar a coluna 'Bairro' e a última coluna 'TOTAL'
+        bairros[col] = bairros[col].str.replace(',', '.').astype(float)
+
+    # ================= Limpeza ===============================================================
+
+    # ====================== graficos ============================================================
+
+    # Seleção de bairro no Streamlit
+    bairro_seleconado = st.selectbox('', bairros['Bairro'])
+    if bairro_seleconado:
+        # Filtrar os dados do bairro selecionado
+        dados_bairro = bairros[bairros['Bairro'] == bairro_seleconado].iloc[0, 1:-1]  # Ignorar a coluna 'Bairro' e a última coluna 'TOTAL'
+
+        # Criar um DataFrame para Plotly Express
+        df_plot = pd.DataFrame({
+            'Dia': dados_bairro.index,
+            'Precipitação (mm)': dados_bairro.values
+        })
+        # Criar o gráfico de barras
+        fig_Precip = px.bar(df_plot, x='Dia', y='Precipitação (mm)', title=f'Precipitação por dia no bairro {bairro_seleconado}')
+        # Exibir o gráfico no Streamlit
+        st.plotly_chart(fig_Precip, use_container_width=True)
+
+    st.markdown("---")
+
+    # Layout do aplicativo
+    col1, col2 = st.columns([1, 1])
+
+    with col1:
+        # Gráfico de barras com dados aleatórios
+        dados_aleatorios_barra = np.random.rand(len(bairros_coordenas))
+        fig_barra = go.Figure(data=[go.Line(x=bairros_coordenas['Bairro'], y=dados_aleatorios_barra, marker_color='#FF4B4B')])
+        st.plotly_chart(fig_barra, use_container_width=True)
+
+    with col2:
+        # Calcular a precipitação total por bairro
+        bairros['Precipitação Total'] = bairros.iloc[:, 1:-1].sum(axis=1)
+        # Selecionar os 10 bairros com maior precipitação total
+        top_5_bairros = bairros.nlargest(5, 'Precipitação Total')
+        # Criar o gráfico de pizza com Plotly Express
+        fig_pizza = px.pie(top_5_bairros, names='Bairro', values='Precipitação Total', title='Bairros com Maior Precipitação (mm)')
+        # Exibir o gráfico no Streamlit
+        st.plotly_chart(fig_pizza, use_container_width=True)
+
+ #==================================================================================================================================
+
+if selecionado == "Datasets":
+    metricas()
+    st.markdown("Em desenvolvimento")
+
+#==================================================================================================================================
+
+if selecionado == "Mapa": # Pagina de contato
+    metricas()
     # ====================== Mapa de risco Incidente =======================
     fig_mapa = go.Figure()
     bairros_risco_alto = []
@@ -238,8 +246,7 @@ if selecionado == "Contato":
 
     local_css("style/style.css")
 
-if selecionado == "Datasets":
-    st.markdown("Em desenvolvimento")
+
 
 # Rodapé
 st.markdown("<p style='text-align: center; margin-top: 200px; '> </p>", unsafe_allow_html=True)
