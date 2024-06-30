@@ -22,7 +22,7 @@ textarea {
 
 /* Style the submit button with a specific background color etc */
 button[type=submit] {
-    background-color: #000000;
+    background-color: #582c8d;
     color: white;
     padding: 12px 20px;
     border: none;
@@ -32,5 +32,14 @@ button[type=submit] {
 
 /* When moving the mouse over the submit button, add a darker green color */
 button[type=submit]:hover {
-    background-color: #080808;
+    background-color: #761DB1;
+}
+
+.st-emotion-cache-6qob1r {
+    background-color: #582c8d;
+
+}
+
+.mapboxgl-canvas  {
+    border-radius: 30px;
 }
