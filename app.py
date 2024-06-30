@@ -126,6 +126,7 @@ if selecionado == "Dashboard": # Pagina dos graficos
 
     # Layout do aplicativo
     col1, col2 = st.columns([1, 1])
+    col3, col4 = st.columns([1, 1])
 
     with col1:
         # Gráfico de barras com dados aleatórios
@@ -144,24 +145,32 @@ if selecionado == "Dashboard": # Pagina dos graficos
         st.plotly_chart(fig_pizza, use_container_width=True)
 
     st.markdown("---")
-    # Seleção de bairro no Streamlit
-    bairro_seleconado = st.selectbox('', bairros['Bairro'])
-    if bairro_seleconado:
-        # Filtrar os dados do bairro selecionado
-        dados_bairro = bairros[bairros['Bairro'] == bairro_seleconado].iloc[0,
-                       1:-1]  # Ignorar a coluna 'Bairro' e a última coluna 'TOTAL'
+    with col3:
+        # Seleção de bairro no Streamlit
+        bairro_seleconado = st.selectbox('', bairros['Bairro'])
+        if bairro_seleconado:
+            # Filtrar os dados do bairro selecionado
+            dados_bairro = bairros[bairros['Bairro'] == bairro_seleconado].iloc[0,
+                           1:-1]  # Ignorar a coluna 'Bairro' e a última coluna 'TOTAL'
 
-        # Criar um DataFrame para Plotly Express
-        df_plot = pd.DataFrame({
-            'Dia': dados_bairro.index,
-            'Precipitação (mm)': dados_bairro.values
-        })
-        # Criar o gráfico de barras
-        fig_Precip = px.bar(df_plot, x='Dia', y='Precipitação (mm)',
-                            title=f'Precipitação por dia no bairro {bairro_seleconado}')
-        # Exibir o gráfico no Streamlit
-        st.plotly_chart(fig_Precip, use_container_width=True)
+            # Criar um DataFrame para Plotly Express
+            df_plot = pd.DataFrame({
+                'Dia': dados_bairro.index,
+                'Precipitação (mm)': dados_bairro.values
+            })
+            # Criar o gráfico de barras
+            fig_Precip = px.bar(df_plot, x='Dia', y='Precipitação (mm)',
+                                title=f'Precipitação por dia no bairro {bairro_seleconado}')
+            # Exibir o gráfico no Streamlit
+            st.plotly_chart(fig_Precip, use_container_width=True)
 
+    with col4:
+        import plotly.express as px
+
+        df = px.data.iris()
+        fig = px.scatter(df, x="sepal_width", y="sepal_length", color="species",
+                         size='petal_length', hover_data=['petal_width'], title='Scatter Plots')
+        st.plotly_chart(fig, use_container_width=True)
 
 
  #==================================================================================================================================
