@@ -35,30 +35,33 @@ button[type=submit]:hover {
     background-color: #761DB1;
 }
 
+/* Sidebar */
 .st-emotion-cache-6qob1r {
     background-color: #582c8d;
 
 }
 
+/* Sidebar */
 .mapboxgl-canvas  {
     border-radius: 30px;
 }
 
-
+/* Metricas */
 .st-emotion-cache-12w0qpk  {
     display: flex;
     justify-content: center;
     align-items: center;
-    border-radius: 5px;
+    border-radius: 15px;
     border: 2px solid rgb(88, 44, 141, 0.3);
     padding: 10px;
     box-shadow: 6px 6px #582c8d;
     margin-bottom: 50px;
 }
 
+/* Graficos */
 .st-emotion-cache-keje6w  {
-    padding: 10px;
-    border-radius: 5px;
+    padding: 15px;
+    border-radius: 10px;
     border: 2px solid #582c8d;
     box-shadow: 6px 6px #582c8d;
 }
