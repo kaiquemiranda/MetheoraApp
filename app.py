@@ -51,7 +51,7 @@ with st.sidebar:
         options=["Home", "Dashboard", "Mapa", "Datasets", "Contato"],
         icons=["house","bar-chart", "globe-americas","database", "envelope"],
         menu_icon="cast",
-        default_index=2,
+        default_index=1,
         #orientation="horizontal",
         styles={
             "container": {"padding": "0!important", "background-color": "#582c8d", "border-radius": "0px", "border-top": "2px white solid"},
